@@ -1,0 +1,28 @@
+<html lang="en">
+	<body>
+		<div>2</div>
+		<button id="openButton">open</button>
+		<button id="focusButton">focus</button>
+	</body>
+	<script>
+		const openButton = document.getElementById("openButton");
+		const focusButton = document.getElementById("focusButton");
+
+		openButton.addEventListener("click", onClickOpen);
+		focusButton.addEventListener("click", onClickFocus);
+
+		let childWindow;
+
+		function onClickOpen() {
+			window.child = childWindow = window.open(
+				"http://localhost:8000/3.html",
+				"",
+				`width=300px,height=300px,left=500px,top=500px`
+			);
+		}
+		function onClickFocus() {
+			childWindow.focus();
+		}
+
+	</script>
+</html>
