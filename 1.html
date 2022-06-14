@@ -1,36 +1,38 @@
 <html lang="en">
 	<body>
-		<div>1</div>
+		<div id="count">1</div>
 		<button id="openButton">open</button>
 		<button id="focusButton">focus</button>
-		<button id="focusGrandchildButton">focusGrandchild</button>
 	</body>
 	<script>
-		const openButton = document.getElementById("openButton");
-		const focusButton = document.getElementById("focusButton");
-		const focusGrandchildButton = document.getElementById("focusGrandchildButton");
+		function render(window, count) {
+			const next = count + 1
+			const openButton = window.document.getElementById("openButton");
+			const focusButton = window.document.getElementById("focusButton");
 
-		openButton.addEventListener("click", onClickOpen);
-		focusButton.addEventListener("click", onClickFocus);
-		focusGrandchildButton.addEventListener("click", onClickFocusGrandchild);
+			openButton.addEventListener("click", onClickOpen);
+			focusButton.addEventListener("click", onClickFocus);
 
-		let childWindow;
+			function onClickOpen() {
+				const childWindow = window.open(
+					"",
+					`${next}`,
+					`width=300px,height=300px,left=500px,top=500px`
+				);
+				childWindow.document.body.innerHTML = `
+					<div>${next}</div>
+					<button id="openButton">open</button>
+					<button id="focusButton">focus</button>
+				`;
+				render(childWindow, next);
+			}
 
-		function onClickOpen() {
-			childWindow = window.open(
-				"http://localhost:8000/2.html",
-				"",
-				`width=300px,height=300px,left=500px,top=500px`
-			);
+			function onClickFocus() {
+				const w = window.open("", `${next}`)
+				w.focus();
+			}
 		}
-		function onClickFocus() {
-			childWindow.focus();
-		}
-		function onClickFocusGrandchild() {
-			console.log(childWindow.child)
-			childWindow.child.focus();
-		}
 
-
+		render(window, parseInt(document.getElementById("count").innerText));
 	</script>
 </html>
